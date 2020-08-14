@@ -1,4 +1,4 @@
-#COVID-19 info - WIP
+# COVID-19 info - WIP
 
 Project made in Vue.js
 
