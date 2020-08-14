@@ -1,4 +1,6 @@
-# covid19
+#COVID-19 info - WIP
+
+Project made in Vue.js
 
 ## Project setup
 ```
