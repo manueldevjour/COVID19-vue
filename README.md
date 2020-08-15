@@ -4,7 +4,11 @@ Project made in Vue.js
 
 [Official webpage](https://covid19api.com/) of  the API.
 
-Examples of API calls:
+
+
+Data must be in YYYY-DD-MM
+
+⬇⬇ Examples of API calls ⬇⬇ 
 
 Base URL: https://api.covid19tracking.narrativa.com/
 Data must be in YYYY-DD-MM
