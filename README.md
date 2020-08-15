@@ -2,7 +2,7 @@
 
 Project made in Vue.js
 
-[Official webpage](https://covid19api.com/) of  the API.
+[Official webpage](https://covid19tracking.narrativa.com/) of  the API.
 
 
 ⬇⬇ Examples of API calls ⬇⬇ 
