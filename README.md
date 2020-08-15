@@ -9,7 +9,7 @@ Project made in Vue.js
 
 Base URL: https://api.covid19tracking.narrativa.com/
 
-Dates must be in YYYY-DD-MM
+Dates must be in YYYY-MM-DD
 
 | URL | Description |
 | ------ | ----------- |
