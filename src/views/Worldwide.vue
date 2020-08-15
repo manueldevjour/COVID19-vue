@@ -1,33 +1,25 @@
 <template>
   <div>
     <div class="last-update">
-      <p>Last update: {{ date | dateParse('YYYY-MM-DD-HH-mm-ss') | dateFormat('HH:mm / DD-MM-YYYY') }}</p>
+      <p>Last update: {{ updatedAt }}</p>
     </div>
     <h2 class="worldwide-title">Worldwide</h2>
     <div class="worldwide">
       <div class="worldwide--info">
-        <h3>New confirmed</h3>
-        <p>{{ globalData.NewConfirmed }}</p>
+        <h3>Today confirmed</h3>
+        <p>{{ globalData.today_confirmed }}</p>
       </div>
       <div class="worldwide--info">
-        <h3>Total confirmed</h3>
-        <p>{{ globalData.TotalConfirmed }}</p>
+        <h3>Today deaths</h3>
+        <p>{{ globalData.today_deaths }}</p>
       </div>
       <div class="worldwide--info">
-        <h3>New deaths</h3>
-        <p>{{ globalData.NewDeaths }}</p>
+        <h3>Today open cases</h3>
+        <p>{{ globalData.today_open_cases }}</p>
       </div>
       <div class="worldwide--info">
-        <h3>Total deaths</h3>
-        <p>{{ globalData.TotalDeaths }}</p>
-      </div>
-      <div class="worldwide--info">
-        <h3>New recovered</h3>
-        <p>{{ globalData.NewRecovered }}</p>
-      </div>
-      <div class="worldwide--info">
-        <h3>Total recovered</h3>
-        <p>{{ globalData.TotalRecovered }}</p>
+        <h3>Today recovered</h3>
+        <p>{{ globalData.today_recovered }}</p>
       </div>
     </div>
     
@@ -36,11 +28,11 @@
       <div v-for="data in countriesData" :key="data.id" class="countries__country-info">
         <div class="countries__main-info">
           <country-flag :country="data.CountryCode" size='normal'/>
-          <h4 class="countries__main-info--title"> {{ data.Country }}</h4>
+          <h4 class="countries__main-info--title"></h4>
         </div>
-        <p><b>Total confirmed: </b>{{ data.TotalConfirmed }}</p>
-        <p><b>Total deaths: </b>{{ data.TotalDeaths }}</p>
-        <p><b>Total recovered: </b>{{ data.TotalRecovered }}</p>
+        <p><b>Total confirmed: </b></p>
+        <p><b>Total deaths: </b></p>
+        <p><b>Total recovered: </b></p>
         <p><v-icon name="link"/><router-link class="countries__country-info--link" :to="{ path: 'country', query: { countrySelected: data.Country }}"><b> Info day by day</b></router-link></p>
       </div>
     </div>
@@ -54,9 +46,8 @@ import axios from 'axios'
 export default {
     data() {
       return {
-        date: [],
-        globalData: [],
-        countriesData: []
+        updatedAt: [],
+        globalData: []
       }
     },
     mounted() {
@@ -65,13 +56,12 @@ export default {
     methods: {
       getGlobalData() {
         axios
-          .get('https://api.covid19api.com/summary')
+          .get('https://api.covid19tracking.narrativa.com/api/2020-02-28')
           .then( response => {
             console.log(response.data)
-            this.date = response.data.Date
-            this.globalData = response.data.Global
-            this.countriesData = response.data.Countries
-            console.log(response.data.Countries)
+            this.updatedAt = response.data.updated_at
+            this.globalData = response.data.total
+            console.log(response.data.updated_at)
           }).catch( e=> console.log(e))
       }
     }
@@ -116,7 +106,7 @@ export default {
 }
 
 .worldwide--info {
-  width: 33%;
+  width: 20%;
   border-radius: 10px;
   margin: 1rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
