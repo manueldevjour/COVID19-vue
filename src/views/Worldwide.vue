@@ -21,6 +21,23 @@
         <h3>Today recovered</h3>
         <p>{{ globalData.today_recovered }}</p>
       </div>
+
+      <div class="worldwide--info">
+        <h3>Yesterday confirmed</h3>
+        <p>{{ globalData.yesterday_confirmed }}</p>
+      </div>
+      <div class="worldwide--info">
+        <h3>Yesterday deaths</h3>
+        <p>{{ globalData.yesterday_deaths }}</p>
+      </div>
+      <div class="worldwide--info">
+        <h3>Yesterday open cases</h3>
+        <p>{{ globalData.yesterday_open_cases }}</p>
+      </div>
+      <div class="worldwide--info">
+        <h3>Yesterday recovered</h3>
+        <p>{{ globalData.yesterday_recovered }}</p>
+      </div>
     </div>
     
     <h2 class="countries-title">Countries</h2>
@@ -55,12 +72,15 @@ export default {
     },
     methods: {
       getGlobalData() {
+        var formatted_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+        console.log("formatted_date: ", formatted_date);
         axios
-          .get('https://api.covid19tracking.narrativa.com/api/2020-02-28')
+          .get('https://api.covid19tracking.narrativa.com/api/' + formatted_date)
           .then( response => {
             console.log(response.data)
             this.updatedAt = response.data.updated_at
             this.globalData = response.data.total
+            
             console.log(response.data.updated_at)
           }).catch( e=> console.log(e))
       }
