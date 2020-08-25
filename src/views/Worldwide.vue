@@ -6,19 +6,19 @@
     <h2 class="worldwide-title">Worldwide</h2>
     <div class="worldwide">
       <div class="worldwide--info">
-        <h3>Today confirmed</h3>
+        <h3>Total confirmed</h3>
         <p>{{ globalData.today_confirmed }}</p>
       </div>
       <div class="worldwide--info">
-        <h3>Today deaths</h3>
+        <h3>Total deaths</h3>
         <p>{{ globalData.today_deaths }}</p>
       </div>
       <div class="worldwide--info">
-        <h3>Today open cases</h3>
+        <h3>Total open cases</h3>
         <p>{{ globalData.today_open_cases }}</p>
       </div>
       <div class="worldwide--info">
-        <h3>Today recovered</h3>
+        <h3>Total recovered</h3>
         <p>{{ globalData.today_recovered }}</p>
       </div>
 
@@ -44,8 +44,8 @@
     <div class="countries">
       <div v-for="data in countriesData" :key="data.id" class="countries__country-info">
         <div class="countries__main-info">
-          <country-flag :country="data.CountryCode" size='normal'/>
-          <h4 class="countries__main-info--title"></h4>
+          <!-- <country-flag :country="data.CountryCode" size='normal'/> -->
+          <h4 class="countries__main-info--title">{{ data.name_es }}</h4>
         </div>
         <p><b>Total confirmed: </b></p>
         <p><b>Total deaths: </b></p>
@@ -64,11 +64,13 @@ export default {
     data() {
       return {
         updatedAt: [],
-        globalData: []
+        globalData: [],
+        countriesData: []
       }
     },
     mounted() {
       this.getGlobalData();
+      this.getTodayDataFromACountry();
     },
     methods: {
       getGlobalData() {
@@ -77,12 +79,27 @@ export default {
         axios
           .get('https://api.covid19tracking.narrativa.com/api/' + formatted_date)
           .then( response => {
-            console.log(response.data)
+            console.log("data: ", response.data)
             this.updatedAt = response.data.updated_at
             this.globalData = response.data.total
-            
-            console.log(response.data.updated_at)
+            console.log("updatedAt: ", response.data.updated_at)
           }).catch( e=> console.log(e))
+      },
+      getTodayDataFromACountry() {
+        var formatted_date = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+        console.log("formatted_date: ", formatted_date);
+        axios
+          .get('https://api.covid19tracking.narrativa.com/api/countries')
+          .then(response => {
+            console.log("response of countries call: ", response.data)
+            console.log("response of countries call (countries): ", response.data.countries)
+            console.log("US???", response.data.countries[0])
+            this.countriesData = response.data.countries
+              return axios.get('https://api.covid19tracking.narrativa.com/api/' + formatted_date + '/country/' + this.countriesData[0].id);
+          })
+          .then(response => {
+            console.log('Response', response);
+          })
       }
     }
   }
